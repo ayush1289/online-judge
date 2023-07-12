@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <style>
+        body {
+          font-family: Arial, sans-serif;
+          margin: 0;
+          padding: 0;
+        }
+        
+        .navbar {
+          background-color: #f1f1f1;
+          overflow: hidden;
+        }
+        
+        .navbar a {
+          justify-content: center;
+          float: left;
+          color: black;
+          padding: 14px 16px;
+          text-decoration: none;
+          font-size: 17px;
+        }
+        
+        .navbar a:hover {
+          background-color: #ddd;
+        }
+      </style>
+</head>
+<body>
+    <div class="navbar">
+        <a href="/">Home</a>
+        <a href="/account/register">Register</a>
+        <a href="/account/login">Login</a>
+    </div>
+    <h1>Register</h1>
+        
+        <form action="register" method="post">
+            {% csrf_token %}
+            <input type="text" name="first_name" placeholder="First Name"><br>
+            <input type="text" name="last_name" placeholder="Last Name"><br>
+            <input type="text" name="username" placeholder="Username"><br>
+            <input type="email" name="email" placeholder="Email"><br>
+            <input type="password" name="password1" placeholder="Password"><br>
+            <input type="password" name="password2" placeholder="Confirm Password"><br>
+            <input type="Submit">
+        </form>
+        <div class="error">
+                {% for message in messages %}
+                    <p>{{ message }}</p>
+                {% endfor %}
+        </div>
+    
+</body>
+</html>
