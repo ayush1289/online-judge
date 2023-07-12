@@ -1,81 +1,85 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Problem</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-    }
-    
-    .navbar {
-      background-color: #f1f1f1;
-      overflow: hidden;
-    }
-    
-    .navbar a {
-      float: left;
-      color: black;
-      text-align: center;
-      padding: 14px 16px;
-      text-decoration: none;
-      font-size: 17px;
-    }
-    
-    .navbar a:hover {
-      background-color: #ddd;
-    }
-    
-    .selected-question {
-      text-align: center;
-      padding: 20px;
-      font-weight: bold;
-    }
-    
-    .compiler-container {
-      border: 1px solid #ccc;
-      padding: 20px;
-    }
-  </style>
-</head>
-<body>
-  <div class="navbar">
-    <a href="/">Home</a>
-    {% if user.is_authenticated %}
-     <a href="#">{{user.username}}</a>
-      <a href="/account/logout">Logout</a>
-    {% endif %}
-    {% if not user.is_authenticated %}
-      <a href="/account/register">Register</a>
-      <a href="/account/login">Login</a>
-    {% endif %}
-  </div>
-  
-    <h1 class="selected-question">{{ question.problem_name }}</h1>
-      {% if user.is_authenticated %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submit</title>
+    <style>
+        body {
+          font-family: Arial, sans-serif;
+          margin: 0;
+          padding: 0;
+        }
         
-        <div class="question-description">
-            {{ question.problem_description }}
-        </div>
-      
-        <div class="compiler-container">
-          <form action="submit" method="post">
-              {% csrf_token %}
-            <input type="hidden" name="problem_id" value="{{ question.problem_id }}">
-            <textarea name="code" rows="20" cols="80"></textarea>
-            <br>
-            <input type="submit">
-          </form>
-        </div>   
-      {% endif %}
-      {% if not user.is_authenticated %}
-        <div class="question-description">
-            {{ question.problem_description }}
-        </div>
-        <div class="compiler-container">
-          <p>Please login to submit your code</p>
-        </div>
-      {% endif %}
+        .navbar {
+          background-color: #f1f1f1;
+          overflow: hidden;
+        }
+        
+        .navbar a {
+          float: left;
+          color: black;
+          text-align: center;
+          padding: 14px 16px;
+          text-decoration: none;
+          font-size: 17px;
+        }
+        
+        .navbar a:hover {
+          background-color: #ddd;
+        }
+        
+        .selected-question {
+          text-align: center;
+          padding: 20px;
+          font-weight: bold;
+        }
+        
+        .compiler-container {
+          border: 1px solid #ccc;
+          padding: 20px;
+        }
+      </style>
+    </head>
+    <body>
+      <div class="navbar">
+        <a href="/">Home</a>
+        {% if user.is_authenticated %}
+         <a href="#">{{user.username}}</a>
+          <a href="/account/logout">Logout</a>
+        {% endif %}
+        {% if not user.is_authenticated %}
+          <a href="/account/register">Register</a>
+          <a href="/account/login">Login</a>
+        {% endif %}
+      </div>
+       
+        <h1 class="selected-question">{{ question.problem_name }}</h1>
+          {% if user.is_authenticated %}
+             
+            <div class="question-description">
+                {{ question.problem_description }}
+            </div>
+            <div class="compiler-container">
+                <form action="problem" method="POST">
+                    {% csrf_token %}
+                    <label for="language">Language</label>
+                    <select name="language" id="language">
+                        <option value="C">C</option>
+                        <option value="C++">C++</option>
+                        <option value="Python">Python</option>
+                    </select>
+                    <br>
+                    <label for="code">Code</label>
+                    <br>
+                    <textarea name="code" id="code" cols="30" rows="10"></textarea>
+                    <br>
+                    <input type="Submit">
+                </form>
+            </div>
+          {% endif %}
+          {% if not user.is_authenticated %}
+            <p>Please login to submit</p>
+          {% endif %}   
 </body>
 </html>
