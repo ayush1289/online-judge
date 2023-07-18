@@ -78,14 +78,18 @@
                   {% csrf_token %}
                   <label for="language">Language</label>
                   <select name="language" id="language">
-                      <option value="C">C</option>
-                      <option value="C++">C++</option>
-                      <option value="Python">Python</option>
+                      <option value="c">C</option>
+                      <option value="cpp">C++</option>
+                      <option value="py">Python</option>
                   </select>
                   <br>
                   <label for="code">Code</label>
                   <br>
-                  <textarea name="code" id="code" cols="30" rows="10" placeholder=""></textarea>
+                  <textarea name="code" id="code" cols="30" rows="10"></textarea>
+                  <br>
+                  <label for="ip">TestCase</label>
+                  <br>
+                  <textarea name="ip" id="ip" cols="30" rows="10"></textarea>
                   <br>
                   <input type="Submit">
               </form>

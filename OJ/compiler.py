@@ -2,52 +2,58 @@
 import subprocess
 import os
 
-def extension_adder(language,file):
-    if language == 'C':
-        return file+'.c'
-    elif language == 'C++':
-        return file+'.cpp'
-    elif language == 'Python':
-        return file+'.py'
+def compile_code(file_path, language):
+    import shutil
+    if language == 'c':
+        compiler = 'gcc'
+    elif language == 'cpp':
+        compiler = 'g++'
+    elif language == 'py':
+        return
     else:
-        return file+'.txt'
+        return
+    try:
+        subprocess.run([compiler, file_path],capture_output=True)
+        source_file = "/home/ayush/Documents/AlgoUni_Project/OJ/a.out"
+        destination_file = "/home/ayush/Documents/AlgoUni_Project/OJ/OJ/waste"
+        shutil.move(source_file, destination_file)
+        subprocess.run(['rm',file_path])
+        executable_file_path = destination_file
+        print("Code compiled successfully.")
+        return executable_file_path
+    except:
+        print("Error occurred while compiling the code.")
 
+def run_code(compiled_file_path,language,input):
 
-def save_text_file(file_path,code):
-    code = subprocess.run(['echo', code],capture_output=True)
-    with open(file_path, 'w') as f:
-        f.write(code.stdout.decode('utf-8'))
-    print("Text file saved successfully.")
-
-import os
-
-def change_file_extension(file_path, language):
-    if language == 'C':
-        new_extension = '.c'
-    elif language == 'C++':
-        new_extension = '.cpp'
-    elif language == 'Python':
-        new_extension = '.py'
+    if language == 'c':
+        executable = './a.out'
+    elif language == 'cpp':
+        executable = './a.out'
+    elif language == 'py':
+        executable = 'python'
     else:
-        new_extension = '.txt'
-    file_name, _ = os.path.splitext(file_path)
-    new_file_path = file_name + new_extension
+        return
     try:
-        os.rename(file_path, new_file_path)
-        print("File extension changed successfully.")
-    except OSError as e:
-        print(f"An error occurred: {e}")
+        print(compiled_file_path)
+        print(executable)
+        os.chdir("OJ/waste")
+        result = subprocess.run([f"{executable}"],input=input.encode(),stdout=subprocess.PIPE,stderr=subprocess.PIPE)
+        subprocess.run(['rm',"a.out"])
+        os.chdir("../../")
+        stdout_output = result.stdout.decode()
+        stderr_output = result.stderr.decode()
+        if stderr_output:
+            answer = stderr_output
+            return answer
+        else:
+            answer = stdout_output
+            print("code executed successfully")
+            return answer
+        return answer
 
-def change_file_name(file_path, new_name):
-    try:
-        dir_name = os.path.dirname(file_path)
-        new_file_path = os.path.join(dir_name, new_name)
-        os.rename(file_path, new_file_path)
-        print("File name changed successfully.")
-    except OSError as e:
-        print(f"An error occurred: {e}")
-
-
+    except:
+        print("Error occurred while executing the code.")
 
 
 
