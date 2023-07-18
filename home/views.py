@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect
-from .models import Problem
+from .models import Problem,test_case
 from OJ.compiler import compile_code,run_code
 
 import os
@@ -19,6 +19,7 @@ def problem(request,problem_id):
 # saving the file in the waste folder present in the OJ folder
 def verdict(request,problem_id):
     question = Problem.objects.get(pk=problem_id)
+    tc = Problem.objects.get(pk=problem_id).test_cases.all()
     path = BASEDIR + f'OJ/waste/{question.problem_id}.txt'
     if request.method == 'POST':
         code = request.POST['code']
@@ -30,7 +31,26 @@ def verdict(request,problem_id):
         newpath = os.path.join(BASEDIR+'OJ/waste/',f'{question.problem_id}.{language}')
         os.rename(oldpath,newpath)
         compile_code(newpath,language)
-        answer = run_code(BASEDIR+'OJ/waste',language,str(ip))
+        ##############################################################
+        flag = 1
+        j = 0
+        idx = 0
+        for i in tc:
+            j+=1
+            result = run_code(BASEDIR+'OJ/waste',language,str(i.tc_input))
+            print(result)
+            print(i.tc_output)
+            
+            if result != i.tc_output:
+                flag = 0
+                idx = j
+
+        if flag == 0:
+            answer = f"Wrong Answer on tc: {idx}"
+        else:
+            answer = "Accepted"     
+        ##############################################################
+        # answer = run_code(BASEDIR+'OJ/waste',language,str(ip))
         return render(request,'verdict.html',{'code':code,'question':question,'answer':answer})
     else:
         return redirect('problem',problem_id=problem_id)
