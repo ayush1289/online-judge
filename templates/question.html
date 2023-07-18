@@ -11,6 +11,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.62.0/mode/python/python.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.62.0/mode/clike/clike.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.62.0/addon/hint/anyword-hint.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.62.0/mode/htmlmixed/htmlmixed.min.js"></script>
     <title>Submit</title>
     <style>
         body {
@@ -105,7 +106,7 @@
             var codeTextArea = document.getElementById("code");
             var editor = CodeMirror.fromTextArea(codeTextArea, {
               lineNumbers: true,
-              mode: "python", // Set the initial mode to Python
+              mode: "text/x-csrc", // Set the initial mode to C
               extraKeys: { "Ctrl-Space": "autocomplete" }, // Enable autocomplete on Ctrl+Space
               hintOptions: { hint: CodeMirror.hint.anyword }, // Set the default suggestion provider
               theme: "dracula"
