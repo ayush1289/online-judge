@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submission</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+        }
+
+        .navbar a:hover {
+            color: #ddd;
+        }
+
+        .question-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .question-list li {
+            margin-bottom: 10px;
+        }
+
+        .question-list li a {
+            text-decoration: none;
+            color: blue;
+        }
+
+        .question-list li a:hover {
+            text-decoration: underline;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th,
+        td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="navbar bg-[#ffa500] w-full p-2 flex justify-between text-3xl">
+        <div>logo</div>
+        <div class="nav-links ">
+            <a href="/">Home</a>
+            {% if user.is_authenticated %}
+            <a href="#">{{ user.username }}</a>
+            <a href="/submissions">Submissions</a>
+            <a href="/account/profile">Profile</a>
+            <a href="/account/logout">Logout</a>
+            {% endif %}
+            {% if not user.is_authenticated %}
+            <a href="/account/register">Register</a>
+            <a href="/account/login">Login</a>
+            {% endif %}
+        </div>
+    </div>
+    <div>
+        <h1>Submissions Table</h1>
+        <table>
+            <tr>
+                <th>User Name</th>
+                <th>Submission Time</th>
+                <th>Problem Name</th>
+                <th>Language</th>
+                <th>Verdict</th>
+
+            </tr>
+            {% for sub in submissions_list %}
+            <tr>
+                <td>{{sub.user_id}}</td>
+                <td>{{sub.time}}</td>
+                <td>{{sub.problem_name}}</td>
+                <td>
+                    {% if sub.language == "cpp" %}  
+                    C++
+                    {% elif sub.language == "py" %}
+                    Python
+                    {% elif sub.language == "c" %}
+                    C
+                    {% else %}
+                    N/A
+                    {% endif %}
+                </td>
+                <td>
+                    {% if sub.verdict == 1 %}
+                    Accepted
+                    {% elif sub.verdict == 0 %}
+                    Wrong Answer
+                    {% else %}
+                    N/A
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+
+    </div>
+
+
+</body>
+
+</html>

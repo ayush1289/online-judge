@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect
-from .models import Problem
+from .models import Problem,submissions
 from OJ.compiler import compile_code,check_tc
 from django.contrib import messages
 
@@ -33,7 +33,23 @@ def verdict(request,problem_id):
             compile_code(path,language)
 
             answer = check_tc(tc,language)
+            if answer == "Accepted":
+                    verdict=1
+            else:
+                    verdict=0
 
+            submission = submissions(
+                user_id=request.user.username,
+                problem_name=question.problem_name,
+                language=language,
+                code=code,
+                verdict=verdict
+                )
+            submission.save()
             return render(request,'verdict.html',{'code':code,'question':question,'answer':answer})
     else:
         return redirect('problem',problem_id=problem_id)
+
+def sub(request):
+    submissions_list = submissions.objects.all()
+    return render(request,'submissions.html',{'submissions_list':submissions_list})

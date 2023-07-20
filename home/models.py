@@ -12,6 +12,14 @@ class Problem(models.Model):
     problem_description = models.TextField()
     test_cases = models.ManyToManyField(test_case)
 
+class submissions(models.Model):
+    user_id = models.CharField(max_length=100)
+    problem_name = models.CharField(max_length=100)
+    language = models.CharField(max_length=10)
+    code = models.TextField()
+    verdict = models.BooleanField()
+    time = models.DateTimeField(auto_now_add=True)
+
 
 
 
