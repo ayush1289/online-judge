@@ -24,7 +24,7 @@ def compile_code(file_path, language):
     except:
         print("Error occurred while compiling the code.")
 
-def run_code(compiled_file_path,language,input):
+def run_code(compiled_file_path,language,input,problem_id):
 
     if language == 'c':
         executable = './a.out'
@@ -37,9 +37,17 @@ def run_code(compiled_file_path,language,input):
     try:
         print(compiled_file_path)
         print(executable)
+        print(input)
         os.chdir("OJ/waste")
-        result = subprocess.run([f"{executable}"],input=input.encode(),stdout=subprocess.PIPE,stderr=subprocess.PIPE)
-        subprocess.run(['rm',"a.out"])
+        if language == 'py':
+            result = subprocess.run([f"{executable}",f"{problem_id}.py"],input=input.encode(),stdout=subprocess.PIPE,stderr=subprocess.PIPE)
+        else:
+            result = subprocess.run([f"{executable}"],input=input.encode(),stdout=subprocess.PIPE,stderr=subprocess.PIPE)
+        if language == 'c' or language == 'cpp':
+            subprocess.run(['rm',"a.out"])
+        else:
+            subprocess.run(['rm',f"{problem_id}.py"])
+
         os.chdir("../../")
         stdout_output = result.stdout.decode()
         stderr_output = result.stderr.decode()
@@ -54,6 +62,7 @@ def run_code(compiled_file_path,language,input):
 
     except:
         print("Error occurred while executing the code.")
+        return "Error occurred while executing the code."
 
 
 
