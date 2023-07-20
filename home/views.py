@@ -35,16 +35,24 @@ def verdict(request,problem_id):
         flag = 1
         j = 0
         idx = 0
+        # result = run_code(BASEDIR+'OJ/waste',language,str(i.tc_input),problem_id)
         for i in tc:
             j+=1
-            result = run_code(BASEDIR+'OJ/waste',language,str(i.tc_input))
+            with open(path,'w') as f:
+                f.write(code)
+            oldpath = os.path.join(BASEDIR+'OJ/waste/',f'{question.problem_id}.txt')
+            newpath = os.path.join(BASEDIR+'OJ/waste/',f'{question.problem_id}.{language}')
+            os.rename(oldpath,newpath)
+            compile_code(newpath,language)
+            result = run_code(BASEDIR+'OJ/waste',language,str(i.tc_input).replace(" ","\n"),problem_id)
+            result=result.replace("\n","").replace(" ","")
             print(result)
             print(i.tc_output)
             
             if result != i.tc_output:
                 flag = 0
                 idx = j
-
+    
         if flag == 0:
             answer = f"Wrong Answer on tc: {idx}"
         else:

@@ -1,70 +1,68 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <title>Home</title>
+  <script src="https://cdn.tailwindcss.com"></script>
   <style>
     body {
       font-family: Arial, sans-serif;
       margin: 0;
       padding: 0;
+      height: 100vh;
     }
-    
-    .navbar {
-      background-color: #f1f1f1;
-      overflow: hidden;
-    }
-    
-    .navbar a {
-      justify-content: center;
-      float: left;
-      color: black;
-      padding: 14px 16px;
-      text-decoration: none;
-      font-size: 17px;
-    }
-    
+
     .navbar a:hover {
-      background-color: #ddd;
+      color: #ddd;
     }
-    
+
     .question-list {
       list-style-type: none;
       padding: 0;
     }
-    
+
     .question-list li {
       margin-bottom: 10px;
     }
-    
+
     .question-list li a {
       text-decoration: none;
       color: blue;
     }
-    
+
     .question-list li a:hover {
       text-decoration: underline;
     }
   </style>
 </head>
+
 <body>
-    <div class="navbar">
-            <a href="/">Home</a>
-            {% if user.is_authenticated %}
-                <a href="#">{{ user.username }}</a>
-                <a href="/account/profile">Profile</a>
-                <a href="/account/logout">Logout</a>
-            {% endif %}
-            {% if not user.is_authenticated %}
-                <a href="/account/register">Register</a>
-                <a href="/account/login">Login</a>
-            {% endif %}
+  <div class="navbar bg-[#ffa500] w-full p-2 flex justify-between text-3xl">
+    <div>logo</div>
+    <div class="nav-links ">
+      <a href="/">Home</a>
+      {% if user.is_authenticated %}
+      <a href="#">{{ user.username }}</a>
+      <a href="/account/profile">Profile</a>
+      <a href="/account/logout">Logout</a>
+      {% endif %}
+      {% if not user.is_authenticated %}
+      <a href="/account/register">Register</a>
+      <a href="/account/login">Login</a>
+      {% endif %}
     </div>
+  </div>
+
+  <div class="flex justify-center py-2">Problems</div>
+  <div class="flex justify-center w-full h-1/2 items-center">
     <div>
-        <ul class="question-list">
-            {% for q in questions %}
-                <li><a href="problem/{{ q.problem_id }}">{{ q.problem_name }}</a></li>
-            {% endfor %}
-        </ul>
+      <ul class="question-list">
+        {% for q in questions %}
+        <li><a href="problem/{{ q.problem_id }}">{{ q.problem_name }}</a></li>
+        {% endfor %}
+      </ul>
     </div>
+  </div>
 </body>
+
 </html>
