@@ -1,146 +1,191 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.62.0/codemirror.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.62.0/addon/hint/show-hint.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.62.0/theme/dracula.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.62.0/codemirror.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.62.0/addon/hint/show-hint.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.62.0/mode/python/python.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.62.0/mode/clike/clike.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.62.0/addon/hint/anyword-hint.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.62.0/mode/htmlmixed/htmlmixed.min.js"></script>
-    <title>Submit</title>
-    <style>
-        body {
-          font-family: Arial, sans-serif;
-          margin: 0;
-          padding: 0;
-        }
-        
-        .navbar {
-          background-color: #f1f1f1;
-          overflow: hidden;
-        }
-        
-        .navbar a {
-          float: left;
-          color: black;
-          text-align: center;
-          padding: 14px 16px;
-          text-decoration: none;
-          font-size: 17px;
-        }
-        
-        .navbar a:hover {
-          background-color: #ddd;
-        }
-        
-        .selected-question {
-          text-align: center;
-          padding: 20px;
-          font-weight: bold;
-        }
-        
-        .compiler-container {
-          border: 1px solid #ccc;
-          padding: 20px;
-        }
-        .main_data{
-          display:contents;
-          justify-content: space-around;
-        }
-      </style>
-    </head>
-    <body>
-      <div class="navbar">
-        <a href="/">Home</a>
-        {% if user.is_authenticated %}
-         <a href="#">{{user.username}}</a>
-         <a href="/submissions">Submissions</a>
-          <a href="/account/logout">Logout</a>
-        {% endif %}
-        {% if not user.is_authenticated %}
-          <a href="/account/register">Register</a>
-          <a href="/account/login">Login</a>
-        {% endif %}
-      </div>
-        <h1 class="selected-question">{{ question.problem_name }}</h1>
-          {% if user.is_authenticated %}
-             
-          <div class="main_data">
-            <div class="question-description">
-              {{ question.problem_description }}
-            </div>
-            <div class="compiler-container">
-            
-              <form action="{{question.problem_id}}/verdict" method="POST">
-                  {% csrf_token %}
-                  <label for="language">Language</label>
-                  <select name="language" id="language">
-                      <option value="c">C</option>
-                      <option value="cpp">C++</option>
-                      <option value="py">Python</option>
-                  </select>
-                  <br>
-                  <label for="code">Code</label>
-                  <br>
-                  <textarea name="code" id="code" cols="30" rows="10"></textarea>
-                  <br>
-                  <label for="ip">TestCase</label>
-                  <br>
-                  <textarea name="ip" id="ip" cols="30" rows="10"></textarea>
-                  <br>
-                  <input type="Submit">
-              </form>
-              
-            </div>
-          </div>
-          {% endif %}
-          {% if not user.is_authenticated %}
-            <p>Please login to submit</p>
-          {% endif %}
-          <script>
-            var languageSelect = document.getElementById("language");
-            var codeTextArea = document.getElementById("code");
-            var editor = CodeMirror.fromTextArea(codeTextArea, {
-              lineNumbers: true,
-              mode: "text/x-csrc", // Set the initial mode to C
-              extraKeys: { "Ctrl-Space": "autocomplete" }, // Enable autocomplete on Ctrl+Space
-              hintOptions: { hint: CodeMirror.hint.anyword }, // Set the default suggestion provider
-              theme: "dracula"
-            });
-          
-            languageSelect.addEventListener("change", function() {
-              var selectedLanguage = languageSelect.value;
-              var mode;
-          
-              // Set the mode based on the selected language
-              switch (selectedLanguage) {
-                case "C":
-                  mode = "text/x-csrc";
-                  break;
-                case "C++":
-                  mode = "text/x-c++src";
-                  break;
-                case "python":
-                  mode = "python";
-                  break;
-                // Add additional cases for other languages if needed
-          
-                default:
-                  mode = null;
-              }
-          
-              // Update the CodeMirror mode
-              if (mode) {
-                editor.setOption("mode", mode);
-                editor.setOption("hintOptions", { hint: CodeMirror.hint.mode }); // Set the default suggestion provider
-              }
-            });
-          </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.62.0/codemirror.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.62.0/addon/hint/show-hint.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.62.0/theme/dracula.min.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.62.0/codemirror.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.62.0/addon/hint/show-hint.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.62.0/mode/python/python.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.62.0/mode/clike/clike.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.62.0/addon/hint/anyword-hint.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.62.0/mode/htmlmixed/htmlmixed.min.js"></script>
+  <title>Submit</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    .code {
+      height: 50vh;
+    }
+    .navbar {
+      background-color: #f1f1f1;
+      overflow: hidden;
+    }
+
+    .navbar a {
+      float: left;
+      color: black;
+      text-align: center;
+      padding: 14px 16px;
+      text-decoration: none;
+      font-size: 17px;
+    }
+
+    .navbar a:hover {
+      background-color: #ddd;
+    }
+
+    .selected-question {
+      text-align: center;
+      padding: 20px;
+      font-weight: bold;
+    }
+    .CodeMirror {
+      border: 1px solid black;
+      height: 70vh;
+    }
+    .Verdict {
+      text-align: center;
+      padding: 20px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="navbar">
+    <a href="/">Home</a>
+    {% if user.is_authenticated %}
+    <a href="#">{{user.username}}</a>
+    <a href="/submissions">Submissions</a>
+    <a href="/account/logout">Logout</a>
+    {% endif %}
+    {% if not user.is_authenticated %}
+    <a href="/account/register">Register</a>
+    <a href="/account/login">Login</a>
+    {% endif %}
+    
+  </div>
+  <h1 class="selected-question">{{ question.problem_name }}</h1>
+  {% if user.is_authenticated %}
+
+  <div class="main_data flex w-full">
+    <div class="question-description border-2 border-red-500 w-1/2 p-2">
+      {{ question.problem_description }}
+      <div>
        
+          <textarea class="border-2 border-red-500" name="customTc" id="customTc" cols="10" rows="10"></textarea>
+          <br>
+          <button onclick="updateData()" >Run Code</button>
+          <div id="data-container">
+            <!-- The content that you want to update dynamically will be placed here -->
+          </div>
+      </div>
+    </div>
+    <div class="compiler-container flex flex-col border-2 border-red-500 w-1/2 p-2">
+
+        <label for="language">Language</label>
+        <select name="language" id="language">
+          <option value="c">C</option>
+          <option value="cpp">C++</option>
+          <option value="py">Python</option>
+        </select>
+        <br>
+        <label for="code">Code</label>
+        <br>
+        <textarea name="code" id="code" cols="30" rows="10"></textarea>
+        <br>
+        <button onclick="compileCode()">Submit</button>
+        
+
+    </div>
+    
+  </div>
+  <div class="Verdict ">
+    <h1>Verdict</h1>
+    <div id="Verdict">
+      <!-- The content that you want to update dynamically will be placed here -->
+    </div>
+    
+  </div>
+  {% endif %}
+  {% if not user.is_authenticated %}
+  <p>Please login to submit</p>
+  {% endif %}
+  <script>
+
+function compileCode(){
+      var csrf_token = "{{ csrf_token }}";
+      const language = document.getElementById("language").value;
+      const user_code = document.getElementById("code").value;
+      const payload = {
+        language : language,
+        code : user_code
+      }
+      fetch('{{question.problem_id}}/verdict', {
+          method: 'POST',
+          body: JSON.stringify(payload),
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': csrf_token
+          }
+        })
+        .then(response => response.json())
+        .then(data => {
+          const dataContainer = document.getElementById('Verdict');
+          // Update the content inside the data container
+          dataContainer.innerHTML = `
+            <p>${data.message}</p>
+          `;
+        })
+        }
+
+    function updateData() {
+      var csrf_token = "{{ csrf_token }}";
+      const user_tc = document.getElementById("customTc").value;
+      const user_code = document.getElementById("code").value;
+      console.log(user_code)
+      const language = document.getElementById("language").value;
+      const payload = {
+        user_tc: user_tc,
+        user_code: user_code,
+        language: language
+        
+      };
+      
+      console.log(payload);
+      try {
+        fetch('customTc', {
+          method: 'POST',
+          body: JSON.stringify(payload),
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': csrf_token
+          }
+        })
+        .then(response => response.json())
+        .then(data => {
+          const dataContainer = document.getElementById('data-container');
+          // Update the content inside the data container
+          dataContainer.innerHTML = `
+            <p>${data.message}</p>
+          `;
+        })
+        .then
+        .catch(error => console.error('Error fetching data:', error));
+      } catch(err){
+        console.log(err);
+      }
+  }
+  </script>
+
 </body>
+
 </html>

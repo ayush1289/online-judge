@@ -86,7 +86,7 @@
                 <th>Verdict</th>
 
             </tr>
-            {% for sub in submissions_list %}
+            {% for sub in submissions_list reversed %}
             <tr>
                 <td>{{sub.user_id}}</td>
                 <td>{{sub.time}}</td>
@@ -102,15 +102,7 @@
                     N/A
                     {% endif %}
                 </td>
-                <td>
-                    {% if sub.verdict == 1 %}
-                    Accepted
-                    {% elif sub.verdict == 0 %}
-                    Wrong Answer
-                    {% else %}
-                    N/A
-                    {% endif %}
-                </td>
+                <td>{{sub.verdict}}</td>
             </tr>
             {% endfor %}
         </table>

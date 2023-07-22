@@ -6,5 +6,6 @@ urlpatterns = [
     path('problem/<int:problem_id>', views.problem, name='problem'),
     path('problem/<int:problem_id>/verdict', views.verdict, name='submit'),
     path('submissions', views.sub, name='submissions'),
+    path('problem/customTc', views.customTc, name='customTc'),
 
 ]

@@ -17,7 +17,7 @@ class submissions(models.Model):
     problem_name = models.CharField(max_length=100)
     language = models.CharField(max_length=10)
     code = models.TextField()
-    verdict = models.BooleanField()
+    verdict = models.CharField(max_length=100)
     time = models.DateTimeField(auto_now_add=True)
 
 
