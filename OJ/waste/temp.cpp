@@ -22,7 +22,7 @@ const double PI = 3.1415926535897932384626433832795;
 void solve()
     {
         int a,b;cin>>a>>b;
-        cout<<a*b;
+        cout<<a+b;
         
     }
 int32_t main()

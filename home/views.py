@@ -72,7 +72,7 @@ def customTc(request):
 
             compile_code(path,language)
 
-            answer = run_code(language,user_tc_value)   
+            answer = run_code(language,str(user_tc_value).replace(" ","\n"))   
             return JsonResponse({"message": answer}, status=200)
     else:
         return JsonResponse({"message": "Invalid request"}, status=400)
