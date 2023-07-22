@@ -4,8 +4,9 @@ from OJ.compiler import compile_code,check_tc,run_code
 from django.http import JsonResponse
 import json
 
-
-BASEDIR = "/home/ayush/Documents/AlgoUni_Project/OJ/"
+from pathlib import Path
+import os
+BASEDIR = Path(__file__).resolve().parent.parent
 
 def home(request):
     questions = Problem.objects.all()
@@ -29,7 +30,7 @@ def verdict(request,problem_id):
         if code == "":
             return JsonResponse({"message": "code is empty"}, status=400)
         else:
-            path = BASEDIR + f'OJ/waste/temp.{language}'
+            path = os.path.join(BASEDIR,f'OJ/waste/temp.{language}')
             with open(path,'w') as f:
                 f.write(str(code))
             compile_code(path,language)
@@ -65,7 +66,7 @@ def customTc(request):
         if code == "":
             return JsonResponse({"message": "user_tc is empty"}, status=400)
         else:
-            path = BASEDIR + f'OJ/waste/temp.{language}'
+            path = os.path.join(BASEDIR,f'OJ/waste/temp.{language}')
             with open(path,'w') as f:
                 f.write(str(code))
 
