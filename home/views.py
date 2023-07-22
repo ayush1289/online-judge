@@ -1,9 +1,12 @@
 from django.shortcuts import render,redirect
-from .models import Problem
-from OJ.compiler import compile_code,check_tc
-from django.contrib import messages
+from .models import Problem,submissions
+from OJ.compiler import compile_code,check_tc,run_code
+from django.http import JsonResponse
+import json
 
-BASEDIR = "/home/ayush/Documents/AlgoUni_Project/OJ/"
+from pathlib import Path
+import os
+BASEDIR = Path(__file__).resolve().parent.parent
 
 def home(request):
     questions = Problem.objects.all()
@@ -18,22 +21,60 @@ def verdict(request,problem_id):
     tc = Problem.objects.get(pk=problem_id).test_cases.all()
 
     if request.method == 'POST':
-        code = request.POST['code']
-        language = request.POST['language']
-        ip = request.POST['ip']
+        payload = json.loads(request.body)
+        
+
+        code = payload.get("code")
+        language = payload.get("language")
+        
+        if code == "":
+            return JsonResponse({"message": "code is empty"}, status=400)
+        else:
+            path = os.path.join(BASEDIR,f'OJ/waste/temp.{language}')
+            with open(path,'w') as f:
+                f.write(str(code))
+            compile_code(path,language)
+            answer = check_tc(tc,language)
+            if answer == "Accepted":
+                    verdict=1
+            else:
+                    verdict=0
+
+            submission = submissions(
+                user_id=request.user.username,
+                problem_name=question.problem_name,
+                language=language,
+                code=code,
+                verdict=answer
+                )
+            submission.save()
+            return JsonResponse({"message": answer}, status=200)
+    else:
+        return JsonResponse({"message": "Invalid Request"}, status=400)
+
+def sub(request):
+    submissions_list = submissions.objects.all()
+    return render(request,'submissions.html',{'submissions_list':submissions_list})
+
+def customTc(request):
+    if request.method == 'POST':
+        payload = json.loads(request.body)
+        user_tc_value = payload.get("user_tc")
+        code = payload.get("user_code")
+        language = payload.get("language")
 
         if code == "":
-            messages.info(request,"Please enter the code")
-            return redirect('problem',problem_id=problem_id)
+            return JsonResponse({"message": "user_tc is empty"}, status=400)
         else:
-            path = BASEDIR + f'OJ/waste/temp.{language}'
+            path = os.path.join(BASEDIR,f'OJ/waste/temp.{language}')
             with open(path,'w') as f:
-                f.write(code)
+                f.write(str(code))
 
             compile_code(path,language)
 
-            answer = check_tc(tc,language)
-
-            return render(request,'verdict.html',{'code':code,'question':question,'answer':answer})
+            answer = run_code(language,str(user_tc_value).replace(" ","\n"))   
+            return JsonResponse({"message": answer}, status=200)
     else:
-        return redirect('problem',problem_id=problem_id)
+        return JsonResponse({"message": "Invalid request"}, status=400)
+
+

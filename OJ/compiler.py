@@ -16,19 +16,18 @@ def compile_code(file_path,lang):
         subprocess.run([compiler, file_path], capture_output=True)
         os.chdir(curr_dir)
     except:
-        print("Error occured while compiling")
+        return "Compilation Error"
 
 
 def run_code(lang,ip_data):
     try:
         curr_dir = os.getcwd()
         os.chdir("OJ/waste")
-
+        
         if lang == 'py':
             result = subprocess.run(['python','temp.py'],input=ip_data.encode(),stdout=subprocess.PIPE,stderr=subprocess.PIPE)
         else:
             result = subprocess.run(['./a.out'],input=ip_data.encode(),stdout=subprocess.PIPE,stderr=subprocess.PIPE)
-        
         os.chdir(curr_dir)
         stdout_output = result.stdout
         stderr_output = result.stderr
