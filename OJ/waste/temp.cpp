@@ -21,9 +21,9 @@ const double PI = 3.1415926535897932384626433832795;
 
 void solve()
     {
-        a,b; cin>>a>>b;cout<<a+b;
-        }
-    
+        int a,b;cin>>a>>b;cout<<a*b;
+        
+    }
 int32_t main()
 {
 cin.tie(0)->sync_with_stdio(0);

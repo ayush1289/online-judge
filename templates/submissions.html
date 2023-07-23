@@ -117,6 +117,7 @@
                 <th>Problem Name</th>
                 <th>Language</th>
                 <th>Verdict</th>
+                <th>Code</th>
             </tr>
             {% for sub in submissions_list reversed %}
             <tr>
@@ -135,6 +136,7 @@
                     {% endif %}
                 </td>
                 <td class="verdict-cell {% if sub.verdict == 'Accepted' %}accepted{% endif %}">{{ sub.verdict }}</td>
+                <td><a href="/submissions/{{ sub.id }}">View</a></td>
             </tr>
             {% endfor %}
         </table>

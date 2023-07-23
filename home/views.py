@@ -4,6 +4,10 @@ from OJ.compiler import compile_code, check_tc, run_code
 from django.http import JsonResponse
 import json
 
+from pygments import highlight
+from pygments.lexers import get_lexer_by_name
+from pygments.formatters import HtmlFormatter
+
 from pathlib import Path
 import os
 
@@ -94,3 +98,13 @@ def customTc(request):
                 return JsonResponse({"message": answer}, status=200)
     else:
         return JsonResponse({"message": "Invalid request"}, status=400)
+    
+def sub_display_code(request, submission_id):
+    submission = submissions.objects.get(pk=submission_id)
+    language = submission.language
+    code_string = str(submission.code)
+    lexer = get_lexer_by_name(str(language), stripall=True)
+    formatter = HtmlFormatter(linenos=True, cssclass="source")
+    formatted_code = highlight(code_string, lexer, formatter)
+    return render(request, "user_code.html", {"formatted_code": formatted_code})
+

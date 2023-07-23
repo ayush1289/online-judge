@@ -7,8 +7,10 @@ def compile_code(file_path, lang):
         compiler = "gcc"
     elif lang == "cpp":
         compiler = "g++"
+    elif lang == "py":
+        return "Compilation successful"
     else:
-        return
+        return "Compilation Error"
 
     curr_dir = os.getcwd()
     try:
@@ -90,6 +92,8 @@ def check_tc(tc, language):
     for i in tc:
         j += 1
         result = run_code(language, str(i.tc_input).replace(" ", "\n"))
+        if result == "Time Limit Exceeded.":
+            return f"Time Limit Exceeded on tc {j}"
         result = result.replace("\n", "").replace(" ", "")
 
         if result != i.tc_output:

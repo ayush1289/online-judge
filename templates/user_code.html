@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CodeMirror Example</title>
+    <!-- Include CodeMirror CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.0/codemirror.min.css">
+    <!-- Include the CodeMirror theme (e.g., 'monokai') -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.0/theme/monokai.min.css">
+</head>
+<body>
+    <!-- CodeMirror editor container -->
+    <textarea id="code-editor">
+        {{ formatted_code|safe }}
+    </textarea>
+
+    <!-- Include CodeMirror JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.0/codemirror.min.js"></script>
+    <!-- Include CodeMirror mode (e.g., 'python') -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.0/mode/python/python.min.js"></script>
+    <!-- Include CodeMirror mode (e.g., 'c++') -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.0/mode/clike/clike.min.js"></script>
+    <!-- Include the CodeMirror theme (e.g., 'monokai') -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.0/theme/monokai.min.js"></script>
+
+    <script>
+        // Initialize CodeMirror
+        var codeEditor = CodeMirror.fromTextArea(document.getElementById("code-editor"), {
+            lineNumbers: true, // Show line numbers
+            mode: "python", // Set the programming language mode (e.g., 'python')
+            // mode: "clike", // Set the programming language mode (e.g., 'python')
+            theme: "monokai", // Set the theme (e.g., 'monokai')
+            tabSize: 4, // Set the tab size (e.g., 4 spaces for indentation)
+            indentUnit: 4, // Set the number of spaces per indentation level
+            autofocus: true // Set autofocus to start editing immediately
+        });
+    </script>
+</body>
+</html>
