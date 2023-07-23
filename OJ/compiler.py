@@ -25,9 +25,9 @@ def run_code(lang,ip_data):
         os.chdir("OJ/waste")
         
         if lang == 'py':
-            result = subprocess.run(['python','temp.py'],input=ip_data.encode(),stdout=subprocess.PIPE,stderr=subprocess.PIPE)
+            result = subprocess.run(['python','temp.py'],input=ip_data.encode(),stdout=subprocess.PIPE,stderr=subprocess.PIPE,timeout=5)
         else:
-            result = subprocess.run(['./a.out'],input=ip_data.encode(),stdout=subprocess.PIPE,stderr=subprocess.PIPE)
+            result = subprocess.run(['./a.out'],input=ip_data.encode(),stdout=subprocess.PIPE,stderr=subprocess.PIPE,timeout=5)
         os.chdir(curr_dir)
         stdout_output = result.stdout
         stderr_output = result.stderr
@@ -49,7 +49,7 @@ def run_code(lang,ip_data):
         return "Error: Code execution failed."
     except subprocess.TimeoutExpired as e:
         print(f"Error: Code execution timed out. {e}")
-        return "Error: Code execution timed out."
+        return "Time Limit Exceeded."
     except Exception as e:
         print(f"Error occurred while executing the code: {e}")
         return "Error occurred while executing the code."
