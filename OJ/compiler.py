@@ -73,6 +73,6 @@ def check_tc(tc,language):
             idx = j
             break
     if flag == 0:
-        return f"Wrong Answer on tc: {idx}"
+        return f"Wrong Answer on tc {idx}"
     else:
         return "Accepted" 
