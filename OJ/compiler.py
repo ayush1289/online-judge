@@ -20,8 +20,8 @@ def compile_code(file_path,lang):
 
 
 def run_code(lang,ip_data):
+    curr_dir = os.getcwd()
     try:
-        curr_dir = os.getcwd()
         os.chdir("OJ/waste")
         
         if lang == 'py':
@@ -37,20 +37,25 @@ def run_code(lang,ip_data):
         return result.stdout.decode('utf-8')
     
     except FileNotFoundError as e:
+        os.chdir(curr_dir)
         print(f"Error: {e.filename} not found.")
         return "Error: File not found."
     except PermissionError as e:
+        os.chdir(curr_dir)
         print(f"Error: Permission denied for {e.filename}.")
         return "Error: Permission denied."
     except subprocess.CalledProcessError as e:
+        os.chdir(curr_dir)
         print(f"Error: Command {e.cmd} returned a non-zero exit code {e.returncode}.")
         print(f"Standard Output: {e.output}")
         print(f"Standard Error: {e.stderr}")
         return "Error: Code execution failed."
     except subprocess.TimeoutExpired as e:
+        os.chdir(curr_dir)
         print(f"Error: Code execution timed out. {e}")
         return "Time Limit Exceeded."
     except Exception as e:
+        os.chdir(curr_dir)
         print(f"Error occurred while executing the code: {e}")
         return "Error occurred while executing the code."
 
@@ -66,6 +71,7 @@ def check_tc(tc,language):
         if result != i.tc_output:
             flag = 0
             idx = j
+            break
     if flag == 0:
         return f"Wrong Answer on tc: {idx}"
     else:
