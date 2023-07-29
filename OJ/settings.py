@@ -81,11 +81,11 @@ DATABASES = {
     'default': {
         'ENGINE': 'djongo',
         'NAME': 'OJ',
-        'HOST': 'localhost',
-        'PORT': 27017,
+        'CLIENT': {
+            'host': 'mongodb+srv://ayushshankarpurkar11:123@online-judge.hezci6h.mongodb.net/',
+        }
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators

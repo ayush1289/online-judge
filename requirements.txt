@@ -1,0 +1,6 @@
+django
+djongo
+sqlparse==0.2.4
+pymongo==3.12.1
+pytz
+dnspython
