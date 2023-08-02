@@ -1,0 +1,52 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+   <link rel="stylesheet" href="{% static 'css/navbar.css' %}">
+   <script src="https://cdn.tailwindcss.com"></script>
+   
+   
+</head>
+<body>
+    
+    <div class="navbar">
+        <div>
+            <!-- <img src="{% static 'images/logo.png' %}" alt="" class="img-class"> -->
+        </div>
+        <a href="/problemList">Problem Page</a> <!-- Keep "Home" outside the hamburger -->
+        <div class="new">
+          <div class="nav-links">
+            <!-- Assuming you have a variable `user` available -->
+            {% if user.is_authenticated %}
+            <a href="#">{{ user.username }}</a>
+            <a href="/submissions">Submissions</a>
+            <a href="/account/logout">Logout</a>
+            {% endif %}
+            {% if not user.is_authenticated %}
+            <a href="/account/login">Login</a>
+            <a href="/account/register">Register</a>
+            {% endif %}
+            
+          </div>
+          <div class="hamburger" onclick="toggleNav()">
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
+        </div>
+        </div>
+        <!-- <div><img src="{% static 'images/logo.png' %}"></div> -->
+        <div class="tagline flex items-center justify-center h-full">
+            <div  class="typewrite text-3xl" data-period="1000" data-type='[ "Enhance Your Coding Skills With Us!" ]'>
+              <span class="wrap"></span>
+            </div>
+        </div>
+  
+<script src="{% static 'script/typewriter.js' %}"></script>
+<script src="{% static 'script/navbar.js' %}"></script>
+</body>
+</html>

@@ -1,112 +1,14 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html>
 
 <head>
-  <title>Home</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      height: 100vh;
-      background-color: #f7fafc;
-    }
-
-    .navbar {
-      background-color: #2d3748;
-      color: #ffffff;
-      padding: 1rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 1.2rem; /* Reduce font size for the navbar links */
-    }
-
-    .navbar a {
-      color: #ffffff;
-      text-decoration: none;
-      margin-left: 1rem;
-      transition: color 0.3s ease;
-    }
-
-    .navbar a:hover {
-      color: #a0aec0;
-    }
-
-    .nav-links {
-      display: none; /* Hide the nav links by default */
-    }
-
-    .navbar .hamburger {
-      display: block; /* Show the hamburger icon */
-      cursor: pointer;
-    }
-
-    .navbar .hamburger div {
-      width: 30px;
-      height: 4px;
-      background-color: #ffffff;
-      margin: 6px 0;
-      transition: transform 0.3s ease;
-    }
-
-    /* Show the nav links when the hamburger is clicked */
-    .navbar.show-nav .nav-links {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    /* Rotate the hamburger icon when the nav links are shown */
-    .navbar.show-nav .hamburger div:nth-child(1) {
-      transform: rotate(-45deg) translate(-6px, 6px);
-    }
-
-    .navbar.show-nav .hamburger div:nth-child(2) {
-      opacity: 0;
-    }
-
-    .navbar.show-nav .hamburger div:nth-child(3) {
-      transform: rotate(45deg) translate(-6px, -6px);
-    }
-    
-    /* New styles for the problem box */
-    .problem-box {
-      background-color: #ffffff;
-      border-radius: 15px;
-      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-      padding: 20px;
-      margin: 50px auto; /* Center the problem box on the page */
-      width: 70%; /* Adjust the width as needed */
-    }
-
-    .problem-heading {
-      font-size: 1.8rem;
-      font-weight: bold;
-      color: #2d3748;
-      text-align: center;
-      margin-bottom: 10px;
-    }
-
-    /* Add space between each problem in the problem box */
-    .question-list li {
-      margin-bottom: 10px;
-    }
-
-    /* Tagline styles */
-    .tagline {
-      font-size: 1.2rem;
-      color: #4a5568;
-      text-align: center;
-      margin-top: 20px;
-    }
-    .new {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      justify-content: space-between;
-    }
-  </style>
+  <title>ProblemList</title>
+  <link rel="stylesheet" href="{% static 'css/navbar.css' %}">
+  <link rel="stylesheet" href="{% static 'css/index.css' %}">
+  <script src="https://cdn.tailwindcss.com"></script>
+  
 </head>
 
 <body>
@@ -140,19 +42,21 @@
     <div class="question-list">
       <ul>
         {% for q in questions %}
-        <li><a href="problem/{{ q.problem_id }}">{{ q.problem_name }}</a></li>
+        <li><a href="problemList/problem/{{ q.problem_id }}">{{ q.problem_name }}</a></li>
         {% endfor %}
       </ul>
     </div>
   </div>
 
-  <div class="tagline">Enhance your coding skills with us!</div>
+
 
   <script>
     function toggleNav() {
       var navbar = document.querySelector('.navbar');
       navbar.classList.toggle('show-nav');
     }
+
+    
   </script>
 </body>
 

@@ -11,8 +11,10 @@ import os
 
 BASEDIR = Path(__file__).resolve().parent.parent
 
+def homePage(request):
+    return render(request, "home.html")
 
-def home(request):
+def problemList(request):
     questions = Problem.objects.all()
     return render(request, "index.html", {"questions": questions})
 
