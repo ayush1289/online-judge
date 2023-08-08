@@ -1,3 +1,3 @@
 # AlgoArena
 
-[deployed link](http://13.233.127.77:8000/)
+[deployed link](http://65.2.132.142:8000/)
